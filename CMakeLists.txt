@@ -1,4 +1,24 @@
 cmake_minimum_required(VERSION 3.28)
+
+# On Apple Silicon, an x86_64 `cmake` binary running under Rosetta launches
+# child processes (including `uname`) translated too, so both CMake's default
+# arch detection and a naive `uname -m` report x86_64 even on arm64 hardware.
+# `sysctl hw.optional.arm64` queries a hardware capability flag instead, which
+# stays accurate regardless of the calling process's own translation state.
+if(APPLE AND NOT CMAKE_OSX_ARCHITECTURES)
+    execute_process(
+        COMMAND sysctl -n hw.optional.arm64
+        OUTPUT_VARIABLE IS_APPLE_SILICON
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+    )
+    if(IS_APPLE_SILICON STREQUAL "1")
+        set(CMAKE_OSX_ARCHITECTURES arm64)
+    else()
+        set(CMAKE_OSX_ARCHITECTURES x86_64)
+    endif()
+endif()
+
 project(LightSpeedLinearAlgebra CXX)
 
 set(CMAKE_CXX_STANDARD 17)
