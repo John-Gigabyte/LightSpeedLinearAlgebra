@@ -1,4 +1,7 @@
+#include "LSLA.h"
+
 #include <iostream>
+#include <stdexcept>
 
 namespace LSLA
 {
@@ -7,20 +10,55 @@ namespace LSLA
         std::cout << "Hello, World!" << std::endl;
     }
 
-    class Vector
+    Vector::Vector(int const size)
     {
-    private:
-        int size;
-        float *data;
-    public:
-        Vector(int size)
+        this->size = size;
+        this->data = new float[size];
+    }
+
+    Vector::~Vector()
+    {
+        delete [] data;
+    }
+
+    float& Vector::operator[](const int index) const
+    {
+        if (index < 0 || index >= size)
         {
-            this->size = size;
-            this->data = new float[size];
+            throw std::out_of_range("Vector index out of range");
         }
-        ~Vector(){
-            delete [] data;
+        return data[index];
+    }
+
+    void Vector::setData(const std::initializer_list<float> values) const
+    {
+        if (static_cast<int>(values.size()) != size)
+        {
+            throw std::invalid_argument("Vector::setData: value count does not match vector size");
         }
-        float& operator[](int index);
-    };
+        int i = 0;
+        for (float value : values)
+        {
+            data[i++] = value;
+        }
+    }
+
+    int Vector::getSize() const
+    {
+        return size;
+    }
+
+    Vector& Vector::operator=(std::initializer_list<float> const values)
+    {
+        setData(values);
+        return *this;
+    }
+    Vector& operator+(const Vector& other)
+    {
+        if (other.getSize() != size)
+        {
+            throw std::invalid_argument("Vector size does not match vector size");
+        }
+        // implement vector + vector addition
+    }
 }

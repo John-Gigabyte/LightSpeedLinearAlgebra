@@ -1,5 +1,7 @@
 #pragma once
 
+#include <initializer_list>
+
 namespace LSLA {
     // Add your declarations here
     void HelloWorld();
@@ -10,9 +12,12 @@ namespace LSLA {
             float* data;
 
         public:
-            Vector(int size);
+            explicit Vector(int size);
             ~Vector();
-            float& operator[](int index);
+            float& operator[](int index) const;
+            Vector& operator=(std::initializer_list<float> values);
+            void setData(std::initializer_list<float> values) const;
+            int getSize() const;
 
             ////// Vector to Vector operations ////////
             // Addition (Vector + Vector)
