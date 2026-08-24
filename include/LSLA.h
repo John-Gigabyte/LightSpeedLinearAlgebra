@@ -12,7 +12,11 @@ namespace LSLA {
         float *data;
 
     public:
+        Vector();
         explicit Vector(int size);
+
+        Vector(const Vector &other);
+        Vector &operator=(const Vector &other);
 
         ~Vector();
 
@@ -22,7 +26,7 @@ namespace LSLA {
 
         void setData(std::initializer_list<float> values) const;
 
-        int getSize() const;
+        [[nodiscard]] int getSize() const;
 
         ////// Vector to Vector operations ////////
         // Addition (Vector + Vector)
@@ -34,10 +38,10 @@ namespace LSLA {
         Vector &operator-=(const Vector &other);
 
         //Vector Cross Product (Vector x Vector)
-        Vector &operator^(const Vector &other);
+        Vector operator^(const Vector &other) const;
 
         // Dot Product (Vector . Vector)
-        float operator*(const Vector &other);
+        float operator*(const Vector &other) const;
 
         ////// Vector to Scalar operations ////////
         // Scalar multiplication (Vector * scalar)
