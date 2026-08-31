@@ -1,3 +1,6 @@
+//
+// Created by johng on 8/30/26.
+//
 #include "LSLA.h"
 
 #include <cmath>
@@ -17,12 +20,12 @@ namespace LSLA {
         if (size < 0) {
             throw std::invalid_argument("Vector size cannot be negative");
         }
+
         data = size > 0 ? new float[size]() : nullptr;
     }
 
     Vector::Vector(const std::initializer_list<float> values)
         : size(static_cast<int>(values.size())), data(nullptr) {
-
         data = size > 0 ? new float[size] : nullptr;
         int i = 0;
         for (const float value : values) {
@@ -50,6 +53,7 @@ namespace LSLA {
         size = other.size;
         return *this;
     }
+
 
     Vector::Vector(Vector &&other) noexcept : size(other.size), data(other.data) {
         other.size = 0;
@@ -91,6 +95,7 @@ namespace LSLA {
     int Vector::getSize() const {
         return size;
     }
+
 
     Vector &Vector::operator=(const std::initializer_list<float> values) {
         const int count = static_cast<int>(values.size());

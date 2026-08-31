@@ -43,8 +43,7 @@ namespace LSLA {
         // Dot product. Returns a scalar, so no reference question arises.
         float operator*(const Vector &other) const;
 
-        // Cross product (defined for size == 3). Should update to something
-        // with better operator precedence
+        // Cross product (defined for size == 3).
         Vector operator^(const Vector &other) const;
 
         // ---------- Vector <-> scalar ----------
