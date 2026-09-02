@@ -2,7 +2,7 @@
 
 #include <initializer_list>
 
-namespace LSLA {
+namespace LSLASimple {
     void HelloWorld();
 
     class Vector {
@@ -43,7 +43,8 @@ namespace LSLA {
         // Dot product. Returns a scalar, so no reference question arises.
         float operator*(const Vector &other) const;
 
-        // Cross product (defined for size == 3).
+        // Cross product. Update to something with
+        // better operator precedence.
         Vector operator^(const Vector &other) const;
 
         // ---------- Vector <-> scalar ----------

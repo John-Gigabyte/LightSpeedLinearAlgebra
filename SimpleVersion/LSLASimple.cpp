@@ -1,13 +1,13 @@
 //
 // Created by johng on 8/30/26.
 //
-#include "LSLA.h"
+#include "LSLASimple.h"
 
 #include <cmath>
 #include <iostream>
 #include <stdexcept>
 
-namespace LSLA {
+namespace LSLASimple {
     void HelloWorld() {
         std::cout << "Hello, World!" << std::endl;
     }

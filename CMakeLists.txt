@@ -24,8 +24,20 @@ project(LightSpeedLinearAlgebra CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# ---------------------------------------------------------------------------
+# LSLASimple: the straightforward reference implementation. Kept buildable so
+# its behavior can be compared against the optimized library.
+# ---------------------------------------------------------------------------
+add_library(LSLASimple SHARED SimpleVersion/LSLASimple.cpp)
+target_include_directories(LSLASimple PUBLIC SimpleVersion)
+
+# ---------------------------------------------------------------------------
+# LSLA: the main library, where the optimization work happens.
+# ---------------------------------------------------------------------------
 add_library(LSLA SHARED src/LSLA.cpp)
 target_include_directories(LSLA PUBLIC include)
 
+# The two libraries live in separate namespaces (LSLA and LSLASimple), so a
+# consumer can link both and compare them side by side.
 add_executable(app apps/main.cpp)
 target_link_libraries(app PRIVATE LSLA)

@@ -5,7 +5,7 @@ int main() {
     LSLA::HelloWorld();
     LSLA::Vector vector(5);
     LSLA::Vector vector2(5);
-    vector.setData({1, 2, 3, 4, 5});
+    vector = {1, 2, 3, 4, 5};
     std::cout << vector[3] << std::endl;
 
     vector2 = {5, 4, 3, 2, 1};
