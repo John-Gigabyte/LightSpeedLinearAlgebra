@@ -1,6 +1,3 @@
-//
-// Created by johng on 8/30/26.
-//
 #include "LSLASimple.h"
 
 #include <cmath>
