@@ -5,6 +5,7 @@
 #include <cmath>
 #include <iostream>
 #include <stdexcept>
+#include <chrono>
 
 namespace {
     constexpr int largeSize = 100000;
@@ -52,7 +53,7 @@ namespace {
         require((left.power(2.0f))[1] == 4.0f, "power is incorrect");
     }
 
-    void testLargeParity() {
+    void testLargeParityandSpeed() {
         LSLA::Vector optimizedLeft(largeSize);
         LSLA::Vector optimizedRight(largeSize);
         LSLASimple::Vector simpleLeft(largeSize);
@@ -64,19 +65,37 @@ namespace {
             optimizedLeft[i] = simpleLeft[i] = left;
             optimizedRight[i] = simpleRight[i] = right;
         }
-
+        auto OptimizedStart = std::chrono::high_resolution_clock::now();
         const LSLA::Vector optimizedResult =
             -(optimizedLeft + optimizedRight) * 1.5f + 2.0f;
+        auto OptimizedEnd = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> OptimizedDuration = OptimizedEnd - OptimizedStart;
+        std::cerr << "Optimized implementation took: " << OptimizedDuration.count() << " seconds." << std::endl;
+
+        auto SimpleStart = std::chrono::high_resolution_clock::now();
         const LSLASimple::Vector simpleResult =
             -(simpleLeft + simpleRight) * 1.5f + 2.0f;
+        auto SimpleEnd = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> SimpleDuration = SimpleEnd - SimpleStart;
+        std::cerr << "Simple implementation took: " << SimpleDuration.count() << " seconds." << std::endl;
 
         for (int i = 0; i < largeSize; ++i) {
             require(optimizedResult[i] == simpleResult[i],
                     "parallel element-wise operation differs from reference");
         }
 
+        auto optimizedDotStart = std::chrono::high_resolution_clock::now();
         const float optimizedDot = optimizedLeft * optimizedRight;
+        auto optimizedDotEnd = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> optimizedDotDuration = optimizedDotEnd - optimizedDotStart;
+        std::cerr << "Optimized dot product took: " << optimizedDotDuration.count() << " seconds." << std::endl;
+
+        auto simpleDotStart = std::chrono::high_resolution_clock::now();
         const float simpleDot = simpleLeft * simpleRight;
+        auto simpleDotEnd = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> simpleDotDuration = simpleDotEnd - simpleDotStart;
+        std::cerr << "Simple dot product took: " << simpleDotDuration.count() << " seconds." << std::endl;
+        
         const float tolerance = std::max(1.0f, std::abs(simpleDot)) * 1.0e-4f;
         require(std::abs(optimizedDot - simpleDot) <= tolerance,
                 "parallel dot product exceeds rounding tolerance");
@@ -85,9 +104,10 @@ namespace {
 
 int main() {
     try {
-        testErrors();
-        testBasicArithmetic();
-        testLargeParity();
+        testErrors(); // Test error handling first to avoid false positives in other tests
+        testBasicArithmetic(); // Test basic arithmetic operations
+        testLargeParityandSpeed(); // Test large vector operations and compare with simple implementation
+        std::cout << "All tests passed successfully." << std::endl;
     } catch (const std::exception &error) {
         std::cerr << error.what() << '\n';
         return 1;
