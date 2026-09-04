@@ -70,14 +70,14 @@ namespace {
             -(optimizedLeft + optimizedRight) * 1.5f + 2.0f;
         auto OptimizedEnd = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> OptimizedDuration = OptimizedEnd - OptimizedStart;
-        std::cerr << "Optimized implementation took: " << OptimizedDuration.count() << " seconds." << std::endl;
+        std::cout << "Optimized implementation took: " << OptimizedDuration.count() << " seconds." << std::endl;
 
         auto SimpleStart = std::chrono::high_resolution_clock::now();
         const LSLASimple::Vector simpleResult =
             -(simpleLeft + simpleRight) * 1.5f + 2.0f;
         auto SimpleEnd = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> SimpleDuration = SimpleEnd - SimpleStart;
-        std::cerr << "Simple implementation took: " << SimpleDuration.count() << " seconds." << std::endl;
+        std::cout << "Simple implementation took: " << SimpleDuration.count() << " seconds." << std::endl;
 
         for (int i = 0; i < largeSize; ++i) {
             require(optimizedResult[i] == simpleResult[i],
@@ -88,13 +88,13 @@ namespace {
         const float optimizedDot = optimizedLeft * optimizedRight;
         auto optimizedDotEnd = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> optimizedDotDuration = optimizedDotEnd - optimizedDotStart;
-        std::cerr << "Optimized dot product took: " << optimizedDotDuration.count() << " seconds." << std::endl;
+        std::cout << "Optimized dot product took: " << optimizedDotDuration.count() << " seconds." << std::endl;
 
         auto simpleDotStart = std::chrono::high_resolution_clock::now();
         const float simpleDot = simpleLeft * simpleRight;
         auto simpleDotEnd = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> simpleDotDuration = simpleDotEnd - simpleDotStart;
-        std::cerr << "Simple dot product took: " << simpleDotDuration.count() << " seconds." << std::endl;
+        std::cout << "Simple dot product took: " << simpleDotDuration.count() << " seconds." << std::endl;
         
         const float tolerance = std::max(1.0f, std::abs(simpleDot)) * 1.0e-4f;
         require(std::abs(optimizedDot - simpleDot) <= tolerance,
@@ -107,7 +107,7 @@ int main() {
         testErrors(); // Test error handling first to avoid false positives in other tests
         testBasicArithmetic(); // Test basic arithmetic operations
         testLargeParityandSpeed(); // Test large vector operations and compare with simple implementation
-        std::cout << "All tests passed successfully." << std::endl;
+        std::cout << "\n" << "All tests passed successfully." << std::endl;
     } catch (const std::exception &error) {
         std::cerr << error.what() << '\n';
         return 1;
