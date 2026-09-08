@@ -8,7 +8,7 @@
 #include <chrono>
 
 namespace {
-    constexpr int largeSize = 100000;
+    constexpr int largeSize = 1000000;
 
     void require(const bool condition, const char *message) {
         if (!condition) {
