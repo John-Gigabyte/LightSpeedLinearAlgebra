@@ -2,10 +2,12 @@
 
 #include <initializer_list>
 
-namespace LSLA {
-    void HelloWorld();
+#include "LSLA_export.h"
 
-    class Vector {
+namespace LSLA {
+    LSLA_EXPORT void HelloWorld();
+
+    class LSLA_EXPORT Vector {
     private:
         int size;
         float *data;
@@ -70,6 +72,6 @@ namespace LSLA {
     };
 
     // Free functions so the scalar can sit on the left: 2.0f * v, 2.0f + v.
-    Vector operator*(float scalar, const Vector &v);
-    Vector operator+(float scalar, const Vector &v);
+    LSLA_EXPORT Vector operator*(float scalar, const Vector &v);
+    LSLA_EXPORT Vector operator+(float scalar, const Vector &v);
 }
